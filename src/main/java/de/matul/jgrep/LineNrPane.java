@@ -1,9 +1,5 @@
 package de.matul.jgrep;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Point;
+import java.awt.*;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -56,21 +52,24 @@ public class LineNrPane extends JPanel {
 		public void paint(Graphics g) {
 			super.paint(g);
 
+			Graphics2D g2 = (Graphics2D) g;
+			RenderingHints rh = new RenderingHints(
+					RenderingHints.KEY_TEXT_ANTIALIASING,
+					RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+ g2.setRenderingHints(rh);
 			int fontHeight = g.getFontMetrics(pane.getFont()).getHeight(); // font height
 			Point viewPosition = scrollPane.getViewport().getViewPosition();
 
 			int start = viewPosition.y / fontHeight; // pane.viewToModel(viewPosition); // starting pos in document
 
-			int end = (viewPosition.y + pane.getHeight()) / fontHeight; // end pos in doc
-
-			// translate offsets to lines
-//			Document doc = pane.getDocument();
+			int end = (viewPosition.y + scrollPane.getHeight()) / fontHeight; // end pos in doc
 
 			int offset = viewPosition.y % fontHeight;
-			//System.out.println(viewPosition + " " + start + " " + end);
-			
+
+			// System.out.println(start + " " + end + " " + offset);
+
 			g.setFont(new Font("Monospaced", Font.PLAIN, 12));
-			for (int line = start, y = -offset-2; line <= end; line++, y += fontHeight) {
+			for (int line = start, y = -offset-2; line <= end+1; line++, y += fontHeight) {
 				g.drawString(String.format("%4d", line), 0, y);
 			}
 
