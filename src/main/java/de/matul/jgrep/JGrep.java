@@ -23,7 +23,7 @@ public class JGrep {
 	static {
 		String editor = System.getProperty("jgrep.editor");
 		if (editor == null) {
-			editor = System.getProperty("GUI_EDITOR");
+			editor = System.getenv("GUI_EDITOR");
 		}
 		DEFAULT_EDITOR = editor;
 	}
